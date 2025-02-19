@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>قاموس إنجليزي - عربي</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+            direction: rtl;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+        }
+        h2 {
+            color: #333;
+        }
+        input, select, button {
+            padding: 12px;
+            margin: 8px;
+            width: 90%;
+            max-width: 350px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 22px;
+            font-weight: bold;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>📖 قاموس إنجليزي - عربي</h2>
+        
+        <select id="direction">
+            <option value="en-to-ar">إنجليزي → عربي</option>
+            <option value="ar-to-en">عربي → إنجليزي</option>
+        </select>
+        
+        <input type="text" id="wordInput" placeholder="أدخل كلمة">
+        <button onclick="translateWord()">🔍 ترجمة</button>
+        <button onclick="speakWord()">🔊 نطق</button>
+        
+        <div id="result"></div>
+    </div>
+
+    <script>
+        const dictionary = {
+            "apple": "تفاحة", "book": "كتاب", "car": "سيارة", "dog": "كلب", "house": "منزل",
+            "computer": "حاسوب", "phone": "هاتف", "table": "طاولة", "chair": "كرسي", "school": "مدرسة",
+            "water": "ماء", "fire": "نار", "earth": "أرض", "sun": "شمس", "moon": "قمر",
+            "star": "نجمة", "sky": "سماء", "tree": "شجرة", "flower": "زهرة", "river": "نهر",
+            "mountain": "جبل", "road": "طريق", "city": "مدينة", "village": "قرية", "market": "سوق",
+            "food": "طعام", "drink": "شراب", "bread": "خبز", "milk": "حليب", "coffee": "قهوة",
+            "tea": "شاي", "sugar": "سكر", "salt": "ملح", "pepper": "فلفل", "rice": "أرز",
+            "meat": "لحم", "chicken": "دجاج", "fish": "سمك", "egg": "بيضة", "cheese": "جبن",
+            "butter": "زبدة", "honey": "عسل", "juice": "عصير", "vegetable": "خضار", "fruit": "فاكهة",
+            "orange": "برتقال", "banana": "موز", "grape": "عنب", "strawberry": "فراولة", "lemon": "ليمون",
+            "onion": "بصل", "garlic": "ثوم", "potato": "بطاطا", "tomato": "طماطم", "cucumber": "خيار",
+            "airplane": "طائرة", "ship": "سفينة", "train": "قطار", "bus": "حافلة", "bicycle": "دراجة",
+            "door": "باب", "window": "نافذة", "wall": "جدار", "floor": "أرضية", "roof": "سقف",
+            "bed": "سرير", "sofa": "أريكة", "mirror": "مرآة", "clock": "ساعة", "lamp": "مصباح",
+            "shirt": "قميص", "pants": "بنطال", "shoes": "أحذية", "hat": "قبعة", "jacket": "سترة",
+            "summer": "صيف", "winter": "شتاء", "spring": "ربيع", "autumn": "خريف", "weather": "طقس",
+            "happy": "سعيد", "sad": "حزين", "angry": "غاضب", "tired": "متعب", "hungry": "جائع",
+            "thirsty": "عطشان", "beautiful": "جميل", "ugly": "قبيح", "strong": "قوي", "weak": "ضعيف",
+            "big": "كبير", "small": "صغير", "fast": "سريع", "slow": "بطيء", "smart": "ذكي",
+            "تفاحة": "apple", "كتاب": "book", "سيارة": "car", "كلب": "dog", "منزل": "house",
+            "حاسوب": "computer", "هاتف": "phone", "طاولة": "table", "كرسي": "chair", "مدرسة": "school"
+        };
+
+        function translateWord() {
+            let word = document.getElementById("wordInput").value.trim().toLowerCase();
+            let direction = document.getElementById("direction").value;
+            
+            let translation;
+            if (direction === "en-to-ar") {
+                translation = dictionary[word] || "غير موجود في القاموس";
+            } else {
+                // البحث عن المفتاح بناءً على القيمة (لترجمة العربية إلى الإنجليزية)
+                translation = Object.keys(dictionary).find(key => dictionary[key] === word) || "غير موجود في القاموس";
+            }
+
+            document.getElementById("result").innerText = translation;
+        }
+
+        function speakWord() {
+            let text = document.getElementById("result").innerText;
+            if (text && text !== "غير موجود في القاموس") {
+                let msg = new SpeechSynthesisUtterance(text);
+                msg.lang = /^[a-zA-Z]+$/.test(text) ? "en-US" : "ar-SA"; // تحديد اللغة تلقائيًا
+                window.speechSynthesis.speak(msg);
+            }
+        }
+    </script>
+
+</body>
+</html>
